@@ -1,95 +1,137 @@
 # Laporan Proyek Machine Learning
-### Nama :
-### Nim :
-### Kelas :
+### Nama : Faiha Atsaa S
+### Nim : 211351053
+### Kelas : Malam B
 
 ## Domain Proyek
 
-Pada bagian ini, kamu perlu menuliskan latar belakang yang relevan dengan proyek yang diangkat.
+Memudahkan kita untuk mengestimasi harga rumah di boston berdasarkan 8 attribut tanpa harus benar benar mengunjungi lokasinya
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Jelaskan mengapa dan bagaimana masalah tersebut harus diselesaikan
-- Menyertakan hasil riset terkait atau referensi. Referensi yang diberikan harus berasal dari sumber yang kredibel dan author yang jelas.
-  
-  Format Referensi: [Judul Referensi](https://scholar.google.com/) 
 
 ## Business Understanding
 
-Pada bagian ini, kamu perlu menjelaskan proses klarifikasi masalah.
+Dengan adanya aplikasi ini, sangat memudahkan kita untuk melakukan estimasi harga rumah di boston berdasarkan attribut yang di tawarkan. Sehingga kita bisa menyiapkan dana yang sesuai dan hanya perlu sekali saja pergi ke boston keetika pindah tidak untuk bulak balik cek harga pasar.
 
 Bagian laporan ini mencakup:
 
 ### Problem Statements
 
-Menjelaskan pernyataan masalah latar belakang:
-- Pernyataan Masalah 1
-- Pernyataan Masalah 2
-- Pernyataan Masalah n
+Seringkali ketika ingin membeli rumah di luar negri, alih alih sekali deal kita harus malah bulak balik mencari rumah yang cocok sehingga tabungan kita untuk membeli rumah malah habis terpakai untuk ongkos
 
 ### Goals
 
-Menjelaskan tujuan dari pernyataan masalah:
-- Jawaban pernyataan masalah 1
-- Jawaban pernyataan masalah 2
-- Jawaban pernyataan masalah n
+Dengan hadirnya aplikasi ini memudahkan kita mendapat estimasi harga rumah yang cocok dengan kita dan dapat menghemat biaya akomodasi kita sehingga hanya perlu sekali berangkat ke boston untuk proses transaksi dan pindahan.
 
-Semua poin di atas harus diuraikan dengan jelas. Anda bebas menuliskan berapa pernyataan masalah dan juga goals yang diinginkan.
 
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Menambahkan bagian “Solution Statement” yang menguraikan cara untuk meraih goals. Bagian ini dibuat dengan ketentuan sebagai berikut: 
-
-    ### Solution statements
-    - Mengajukan 2 atau lebih solution statement. Misalnya, menggunakan dua atau lebih algoritma untuk mencapai solusi yang diinginkan atau melakukan improvement pada baseline model dengan hyperparameter tuning.
-    - Solusi yang diberikan harus dapat terukur dengan metrik evaluasi.
+   ### Solution statements
+    - Karena model aplikasi ini berbentuk sebuah estimasi maka digunakanlah algoritma linear regresi untuk menemukan harga yang tepat
 
 ## Data Understanding
-Paragraf awal bagian ini menjelaskan informasi mengenai data yang Anda gunakan dalam proyek. dataset wajib menggunakan [kaggle](https://www.kaggle.com/) dan **atribut yang digunakan minimal 8 atribut**. Sertakan juga sumber atau tautan untuk mengunduh dataset.<br> 
+Data ini berdasarkan dataset dari kaggle tentang harga rumah di boston.<br> 
 
-Contoh: [Heart Failure Prediction Dataset](https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction).
+[Boston House Data](https://www.kaggle.com/datasets/fedesoriano/the-boston-houseprice-data).
 
-Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
 
-### Variabel-variabel pada Heart Failure Prediction Dataset adalah sebagai berikut:
-- Age : merupakan umur pasien dalam satuan tahun.
-- Sex : merupakan jenis kelamin pasien meliputi [M: Male, F: Female].
-- dst
-
-**Rubrik/Kriteria Tambahan (Opsional)**:
-- Melakukan beberapa tahapan yang diperlukan untuk memahami data, contohnya teknik visualisasi data atau exploratory data analysis.
+### Variabel-variabel pada Boston House Price Dataset adalah sebagai berikut:
+CRIM = Nilai tingkat kriminal daerah yang di inginkan pertahun nya (tipe data float)
+ZN = Tingkat Kepadatan Penduduk per 25.000 sq.ft (tipe data float)
+CHAS = Apakah daerah yang di inginkan dekat dengan sungai (tipe data int)
+NOX = Tingkat Keasaman Tanah daeeah yang di inginkan (tipe data float)
+RM = Jumlah Ruangan Hunian pada rumah yang di inginkan (tipe data int)
+AGE = Usia Bangunannya (tipe data float)
+DIS = sJarak dari pusat pekerjaan terdekat (tipe data float)
+TAX = Keseluruhan pajak bangunan per $10,000 (tipe data float)
 
 ## Data Preparation
-Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
+Seteleh menentukan dataset yang akan dibuatkan model Machine Learningnya selanjutnya kita ketikan library python yang ingin di gunakan
+```bash
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+```
+Setelah itu kita buka file datasetnya
+```bash
+df = pd.read_csv('the-boston-houseprice-data/boston.csv')
+```
+Kita cek apakah datanya sudah terbaca atau belum
+```bash
+df.head()
+```
+Kita bisa lihat informasi table nya dengan cara
+```bash
+df.info()
+```
+Maka akan muncul
+```bash
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 506 entries, 0 to 505
+Data columns (total 14 columns):
+ #   Column   Non-Null Count  Dtype  
+---  ------   --------------  -----  
+ 0   CRIM     506 non-null    float64
+ 1   ZN       506 non-null    float64
+ 2   INDUS    506 non-null    float64
+ 3   CHAS     506 non-null    int64  
+ 4   NOX      506 non-null    float64
+ 5   RM       506 non-null    float64
+ 6   AGE      506 non-null    float64
+ 7   DIS      506 non-null    float64
+ 8   RAD      506 non-null    int64  
+ 9   TAX      506 non-null    float64
+ 10  PTRATIO  506 non-null    float64
+ 11  B        506 non-null    float64
+ 12  LSTAT    506 non-null    float64
+ 13  MEDV     506 non-null    float64
+dtypes: float64(12), int64(2)
+memory usage: 55.5 KB
+```
+Terlihat lah setiap kolom dan tipe datanya<br>
+Selanjutnya kita bisa visualisasikan data tersebut dalam bentuk heatmap
+```bash
+plt.figure(figsize=(10,8))
+sns.heatmap(df.corr(), annot=True)
+```
+![alt text](https://github.com/faihasukendar/pembelajaranmesin/blob/main/heatmap.png)
+Bisa dilihat bahwa data dari setiap kolomnya tervisualisai
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan proses data preparation yang dilakukan
-- Menjelaskan alasan mengapa diperlukan tahapan data preparation tersebut.
+Sebenarnya masih banyak cara untuk memvisualisasikan data pada proses EDA ini tapi mari kita lanjutkan ke proses modeling.
 
 ## Modeling
-Tahapan ini membahas mengenai model machine learning yang digunakan untuk menyelesaikan permasalahan. Anda perlu menjelaskan tahapan dan parameter yang digunakan pada proses pemodelan.
+Pertama kita tentukan dulu fitur untuk X dan label untuk Y
+```bash
+features = ['CRIM','ZN','CHAS','NOX','RM','AGE','DIS','TAX']
+x = df[features]
+y = df['MEDV']
+```
+Jika sudah ditentukan maka bisa kita lanjutkan dengan melakukan data train dan test
+```bash
+x_train, X_test, y_train, y_test = train_test_split(x,y,random_state=70)
+```
+Jika sudah maka kita masukan algortima linear regresi dengan nilai X dan Y
+```bash
+lr = LinearRegression()
+lr.fit(x_train,y_train)
+pred = lr.predict(X_test)
+```
+Sampai tahap ini proses modeling sudah selesai dan bisa dilakukan pengetesan dengan cara
+```bash
+input_data = np.array([[0.00632, 18.0, 0, 0.538, 6.575, 65.2, 4.0900, 296.0]])
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan kelebihan dan kekurangan dari setiap algoritma yang digunakan.
-- Jika menggunakan satu algoritma pada solution statement, lakukan proses improvement terhadap model dengan hyperparameter tuning. **Jelaskan proses improvement yang dilakukan**.
-- Jika menggunakan dua atau lebih algoritma pada solution statement, maka pilih model terbaik sebagai solusi. **Jelaskan mengapa memilih model tersebut sebagai model terbaik**.
+prediction = lr.predict(input_data)
+print('Estimasi Harga Rumah :', prediction)
+```
+Maka akan muncul harga estimasinya
+
 
 ## Evaluation
-Pada bagian ini anda perlu menyebutkan metrik evaluasi yang digunakan. Lalu anda perlu menjelaskan hasil proyek berdasarkan metrik evaluasi yang digunakan.
+Data ini di evaluasi melalui nilai akurasinya
 
-Sebagai contoh, Anda memiih kasus klasifikasi dan menggunakan metrik **akurasi, precision, recall, dan F1 score**. Jelaskan mengenai beberapa hal berikut:
-- Penjelasan mengenai metrik yang digunakan
-- Menjelaskan hasil proyek berdasarkan metrik evaluasi
+![alt text](https://github.com/faihasukendar/pembelajaranmesin/blob/main/akurasi.png)
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
-
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
 
 ## Deployment
-pada bagian ini anda memberikan link project yang diupload melalui streamlit share. boleh ditambahkan screen shoot halaman webnya.
-
-**---Ini adalah bagian akhir laporan---**
-
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
-
+[The Boston House Price](https://faihautsml.streamlit.app/)<br>
+![alt text](https://github.com/faihasukendar/pembelajaranmesin/blob/main/tampilan.png)

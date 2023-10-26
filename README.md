@@ -33,14 +33,14 @@ Data ini berdasarkan dataset dari kaggle tentang harga rumah di boston.<br>
 
 
 ### Variabel-variabel pada Boston House Price Dataset adalah sebagai berikut:
-CRIM = Nilai tingkat kriminal daerah yang di inginkan pertahun nya (tipe data float)
-ZN = Tingkat Kepadatan Penduduk per 25.000 sq.ft (tipe data float)
-CHAS = Apakah daerah yang di inginkan dekat dengan sungai (tipe data int)
-NOX = Tingkat Keasaman Tanah daeeah yang di inginkan (tipe data float)
-RM = Jumlah Ruangan Hunian pada rumah yang di inginkan (tipe data int)
-AGE = Usia Bangunannya (tipe data float)
-DIS = sJarak dari pusat pekerjaan terdekat (tipe data float)
-TAX = Keseluruhan pajak bangunan per $10,000 (tipe data float)
+- CRIM = Nilai tingkat kriminal daerah yang di inginkan pertahun nya (tipe data float)
+- ZN = Tingkat Kepadatan Penduduk per 25.000 sq.ft (tipe data float)
+- CHAS = Apakah daerah yang di inginkan dekat dengan sungai (tipe data int)
+- NOX = Tingkat Keasaman Tanah daeeah yang di inginkan (tipe data float)
+- RM = Jumlah Ruangan Hunian pada rumah yang di inginkan (tipe data int)
+- AGE = Usia Bangunannya (tipe data float)
+- DIS = sJarak dari pusat pekerjaan terdekat (tipe data float)
+- TAX = Keseluruhan pajak bangunan per $10,000 (tipe data float)
 
 ## Data Preparation
 Seteleh menentukan dataset yang akan dibuatkan model Machine Learningnya selanjutnya kita ketikan library python yang ingin di gunakan

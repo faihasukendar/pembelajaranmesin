@@ -33,14 +33,19 @@ Data ini berdasarkan dataset dari kaggle tentang harga rumah di boston.<br>
 
 
 ### Variabel-variabel pada Boston House Price Dataset adalah sebagai berikut:
-- CRIM = Nilai tingkat kriminal daerah yang di inginkan pertahun nya (tipe data float)
-- ZN = Tingkat Kepadatan Penduduk per 25.000 sq.ft (tipe data float)
-- CHAS = Apakah daerah yang di inginkan dekat dengan sungai (tipe data int)
-- NOX = Tingkat Keasaman Tanah daeeah yang di inginkan (tipe data float)
-- RM = Jumlah Ruangan Hunian pada rumah yang di inginkan (tipe data int)
-- AGE = Usia Bangunannya (tipe data float)
-- DIS = sJarak dari pusat pekerjaan terdekat (tipe data float)
-- TAX = Keseluruhan pajak bangunan per $10,000 (tipe data float)
+1) CRIM: Rata rata tingkat kriminal dalam setahun terakhir
+2) ZN: Tingkat kepadatan penduduk per 25000 sq.ft
+3) INDUS: Tingkat kepadatan area industri
+4) CHAS: Apakah dekat sungai atau tidak
+5) NOX: nitric oxides concentration (parts per 10 juta) [parts/10M]
+6) RM: Rata rata ruangan di daerah
+7) AGE: Usia bangunan
+8) DIS: Total jarak dari pusat pekerjaan
+9) RAD: Tingkat akses terhadap jalan tol
+10) TAX: rata rata pajak  per $10,000 [$/10k]
+11) PTRATIO: tenaga pengajar di daearh
+12) B: Hasil dari B=1000(Bk - 0.63)^2 dimana Bk adalah tingkat populasi kulit hitam
+13) LSTAT: persentase status penduduk kelas bawah
 
 ## Data Preparation
 Seteleh menentukan dataset yang akan dibuatkan model Machine Learningnya selanjutnya kita ketikan library python yang ingin di gunakan
@@ -97,14 +102,30 @@ sns.heatmap(df.corr(), annot=True)
 ![alt text](https://github.com/faihasukendar/pembelajaranmesin/blob/main/heatmap.png)
 Bisa dilihat bahwa data dari setiap kolomnya tervisualisai
 
+```bash
+sns.set_style('whitegrid')
+sns.displot(df['MEDV'], kde=True)
+plt.title('Distribution of median value of owner-occupied homes')
+```
+![download (1)](https://github.com/faihasukendar/pembelajaranmesin/assets/149061885/8d6ab171-7452-49a2-be16-9f475cf13ec8)
+
+```bash
+sns.lmplot(x='CRIM', y='MEDV', data=df, aspect=2)
+plt.xlabel('capita crime rate by town')
+plt.ylabel("Median value of owner-occupied homes in 1000's")
+plt.title('houses pricing vs crime rate')
+```
+![download](https://github.com/faihasukendar/pembelajaranmesin/assets/149061885/c4272984-3242-49e7-bccd-1e3055a0c0b5)
+
+
 Sebenarnya masih banyak cara untuk memvisualisasikan data pada proses EDA ini tapi mari kita lanjutkan ke proses modeling.
 
 ## Modeling
 Pertama kita tentukan dulu fitur untuk X dan label untuk Y
 ```bash
-features = ['CRIM','ZN','CHAS','NOX','RM','AGE','DIS','TAX']
-x = df[features]
+x = df.drop (columns='MEDV', axis=1)
 y = df['MEDV']
+x.shape, y.shape
 ```
 Jika sudah ditentukan maka bisa kita lanjutkan dengan melakukan data train dan test
 ```bash
@@ -118,10 +139,13 @@ pred = lr.predict(X_test)
 ```
 Sampai tahap ini proses modeling sudah selesai dan bisa dilakukan pengetesan dengan cara
 ```bash
-input_data = np.array([[0.00632, 18.0, 0, 0.538, 6.575, 65.2, 4.0900, 296.0]])
+input_data = np.array([[0.00632,18.0,2.31,0,0.538,6.575,65.2,4.0900,1,296.0,15.3,396.90,4.98]])
 
 prediction = lr.predict(input_data)
 print('Estimasi Harga Rumah :', prediction)
+```
+```bash
+Estimasi Harga Rumah : [30.28681756]
 ```
 Maka akan muncul harga estimasinya
 
@@ -129,7 +153,8 @@ Maka akan muncul harga estimasinya
 ## Evaluation
 Data ini di evaluasi melalui nilai akurasinya
 
-![alt text](https://github.com/faihasukendar/pembelajaranmesin/blob/main/akurasi.png)
+![Screenshot (52)](https://github.com/faihasukendar/pembelajaranmesin/assets/149061885/237b2c06-b842-471d-be96-43abd457238f)
+
 
 
 ## Deployment

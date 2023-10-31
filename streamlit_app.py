@@ -18,11 +18,16 @@ RM = st.number_input('Jumlah Ruangan Hunian')
 AGE = st.number_input('Usia Bangunannya')
 DIS = st.number_input('Jarak dari pusat pekerjaan terdekat')
 TAX = st.number_input('Rata rata pajak per $10,000')
+PTRATIO = st.number_input('Tingkat Tenaga pengajar')
+B = st.number_input('Rata rata tingkat populasi orang kulit hitam')
+LSTAT = st.number_input('Persentase penduduk kelas bawah')
+INDUS = st.number_input('Tingkat kepadatan area industri')
+RAD = st.number_input('Jarak akses terhadap jalan tol')
 
 prediksi = ''
 
 if st.button('Estimasi'):
-    prediksi = harga_rumah.predict([[CRIM,ZN,CHAS,NOX,RM,AGE,DIS,TAX]])
+    prediksi = harga_rumah.predict([[CRIM,ZN,CHAS,NOX,RM,AGE,DIS,TAX,PTRATIO,B,LSTAT,INDUS,RAD]])
 
     st.write ('Estimasi harga dalam USD per $1000 : ', prediksi)
     st.write ('Atau : ', prediksi*1000)
